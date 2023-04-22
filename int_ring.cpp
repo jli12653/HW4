@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     // MPI_Recv(&message_in,  1, MPI_INT, p-1, 999, MPI_COMM_WORLD, &status);
 
     
-    for (int j = 0; j < N; j++) array_out[j] = 12;
+    for (int j = 0; j < N; j++) array[j] = 12;
 
 
     MPI_Send(array, N, MPI_INT, 1, 999, MPI_COMM_WORLD);
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
   }
 
   free(array);
-  
+
   MPI_Finalize();
 
 
