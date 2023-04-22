@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
   }
 
   double elapsed = MPI_Wtime() - tt;
-  if (0 == mpirank) {
+  if (rank == 0) {
     printf("Time elapsed is %f seconds.\n", elapsed);
   }
 
