@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     MPI_Recv(&message_in,  1, MPI_INT, p-1, 999, MPI_COMM_WORLD, &status);
 
-    //printf("Rank %d in %d received %d\n", rank, p, message_in);
+    if (i == N-1) printf("Rank %d in %d received %d\n", rank, p, message_in);
 
   } else if (rank == p-1) {
     int message_out = 0;
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
   
   double elapsed = MPI_Wtime() - tt;
   if (rank == 0) {
-    printf("Rank %d in %d received %d\n", rank, p, message_in);
+    // printf("Rank %d in %d received %d\n", rank, p, message_in);
     printf("Time elapsed is %f seconds.\n", elapsed);
   }
 
