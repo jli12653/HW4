@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
   MPI_Finalize();
 
-  printf("hahahahahah");
+  printf("hahahahahah\n");
 
   return 0;
 }
