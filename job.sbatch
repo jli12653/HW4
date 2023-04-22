@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --job-name=int_ring
-#SBATCH --nodes=3 
+#SBATCH --nodes=6 
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=2GB 
 #SBATCH --time=01:00:00 
