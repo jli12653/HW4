@@ -10,6 +10,8 @@ int main(int argc, char *argv[]) {
   
   int N = 1000000;
   int array = (int*) malloc(N); 
+  for (int j = 0; j < N; j++) array[j] = 12;
+  MPI_Barrier(MPI_COMM_WORLD);
   
   double tt = MPI_Wtime();
 
@@ -27,7 +29,7 @@ int main(int argc, char *argv[]) {
     // MPI_Recv(&message_in,  1, MPI_INT, p-1, 999, MPI_COMM_WORLD, &status);
 
     //int * array_out    = (int*) malloc(N);
-    for (int j = 0; j < N; j++) array[j] = 12;
+    
 
     //int * array_in = (int*) malloc(N);
 
