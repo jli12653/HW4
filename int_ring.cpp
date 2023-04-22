@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     MPI_Recv(&message_in,  1, MPI_INT, p-1, 999, MPI_COMM_WORLD, &status);
 
-    printf("Rank %d received %d\n", rank, message_in);
+    printf("Rank %d in %d received %d\n", rank, p, message_in);
 
   } else if (rank == p-1) {
     int message_out = 0;
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 
     //printf("The message is %d\n", message_in);
   }
+
   int message_out = 0;
   int message_in;
 
