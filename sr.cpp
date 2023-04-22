@@ -1,4 +1,3 @@
-/* Simple send-receive example */
 #include <stdio.h>
 #include <mpi.h>
 
