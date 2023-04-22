@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
     //printf("The message is %d\n", message_in);
   }
-
+  else{
   int message_out = 0;
   int message_in;
 
@@ -49,7 +49,8 @@ int main(int argc, char *argv[]) {
   message_out = message_in + rank;
 
   MPI_Send(&message_out, 1, MPI_INT, rank+1, 999, MPI_COMM_WORLD);
-
+  }
+  
   }
 
   
