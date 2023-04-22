@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD, &p);
   
   int N = 1000000;
-  int array = (int*) malloc(N); 
+  int* array = (int*) malloc(N); 
   for (int j = 0; j < N; j++) array[j] = 12;
   MPI_Barrier(MPI_COMM_WORLD);
   
