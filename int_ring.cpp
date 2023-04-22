@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 
   MPI_Send(&message_out, 1, MPI_INT, rank+1, 999, MPI_COMM_WORLD);
   }
-  
+
   }
 
   
@@ -61,6 +61,8 @@ int main(int argc, char *argv[]) {
   }
 
   MPI_Finalize();
+
+  printf("hahahahahah");
 
   return 0;
 }
