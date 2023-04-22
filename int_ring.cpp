@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &p);
   
-  int N = 10;
+  int N = 1000000;
   double tt = MPI_Wtime();
 
   for (int i = 0; i< N;i++){
@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
 
     MPI_Recv(&message_in,  1, MPI_INT, p-1, 999, MPI_COMM_WORLD, &status);
 
-    printf("Rank %d in %d received %d\n", rank, p, message_in);
+    //printf("Rank %d in %d received %d\n", rank, p, message_in);
 
-    //if (i == N-1) printf("Rank %d in %d received %d\n", rank, p, message_in);
+    if (i == N-1) printf("Rank %d in %d received %d\n", rank, p, message_in);
 
   } else if (rank == p-1) {
     int message_out = 0;
@@ -64,7 +64,6 @@ int main(int argc, char *argv[]) {
 
   MPI_Finalize();
 
-  printf("hahahahahah\n");
 
   return 0;
 }
