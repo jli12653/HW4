@@ -5,7 +5,7 @@
 
 // Scan A array and write result into prefix_sum array;
 // use long data type to avoid overflow
-void scan_seq(long* prefix_sum, const long* A, long n) {
+void scan_seq(int* prefix_sum, const int* A, long n) {
   if (n == 0) return;
   prefix_sum[0] = 0;
   for (long i = 1; i < n; i++) {
