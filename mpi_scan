@@ -14,8 +14,10 @@ void scan_seq(long* prefix_sum, const long* A, long n) {
 }
 
 void scan_omp(long* prefix_sum, const long* A, long n) {
-  //printf("maximum number of threads = %d\n", omp_get_max_threads());
-  long* correction = (long*) malloc(omp_get_max_threads() * sizeof(long));
+
+  
+
+  //long* correction = (long*) malloc(omp_get_max_threads() * sizeof(long));
   
   if (n == 0) return;
   prefix_sum[0] = 0;
@@ -56,23 +58,61 @@ void scan_omp(long* prefix_sum, const long* A, long n) {
 }
 
 int main() {
+  int rank, p;
+  
+
+  MPI_Init(&argc, &argv);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  MPI_Comm_size(MPI_COMM_WORLD, &p);
+
   long N = 100000000;
-  long* A = (long*) malloc(N * sizeof(long));
-  long* B0 = (long*) malloc(N * sizeof(long));
-  long* B1 = (long*) malloc(N * sizeof(long));
+  
+  if (rank == 0 ){
+  int* A = (int*) malloc(N * sizeof(int));
+  int* B0 = (int*) malloc(N * sizeof(int));
+  int* B1 = (int*) malloc(N * sizeof(int));
   for (long i = 0; i < N; i++) A[i] = rand();
   for (long i = 0; i < N; i++) B1[i] = 0;
   
   
-  double tt = omp_get_wtime();
+  double tt = MPI_Wtime();
   scan_seq(B0, A, N);
-  printf("sequential-scan = %fs\n", omp_get_wtime() - tt);
+  printf("sequential-scan = %fs\n", MPI_Wtime() - tt);
+  }
   
-  
+  tt = MPI_Wtime();
 
-  tt = omp_get_wtime();
-  scan_omp(B1, A, N);
-  printf("parallel-scan   = %fs\n", omp_get_wtime() - tt);
+  long n = N/p;
+  int* local = (int*) malloc(n * sizeof(int));
+  int* local_sum = (int*) malloc(n * sizeof(int));
+  for (long i = 0; i < n; i++) local_sum[i] = 0;
+  int* correction = (int*) malloc(p * sizeof(int));
+
+  MPI_Scatter(A, n, MPI_INT, local, n, MPI_INT, 0, MPI_COMM_WORLD);
+
+  int s = 0;
+  for (long i = 0; i < n-1; i++) {
+    s += A[i];
+    local_sum[i+1] = s;
+  }
+  correction[rank] = s;
+  MPI_Barrier(MPI_COMM_WORLD);
+
+  MPI_Allgather(s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD);
+
+  int offset = 0;
+    
+  for (int i = 0; i < rank; i++){
+      offset += correction[i];
+  }
+
+  for (long i = 0; i < n; i++) {
+    local_sum[i] += offset;
+  }
+
+  MPI_Allgather(local_sum, n, MPI_INT, B1, n, MPI_INT, 0, MPI_COMM_WORLD);
+
+  printf("parallel-scan   = %fs\n", MPI_Wtime() - tt);
   
 
   long err = 0;
