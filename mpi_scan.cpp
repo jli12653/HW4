@@ -92,17 +92,19 @@ int main(int argc, char *argv[]) {
   long n = N/p;
   int* local = (int*) malloc(n * sizeof(int));
   int* local_sum = (int*) malloc(n * sizeof(int));
-  for (long i = 0; i < n; i++) local_sum[i] = 0;
+  //for (long i = 0; i < n; i++) local_sum[i] = 0;
   int* correction = (int*) malloc(p * sizeof(int));
 
   MPI_Scatter(A, n, MPI_INT, local, n, MPI_INT, 0, MPI_COMM_WORLD);
 
   int s = 0;
+  local_sum[0] = 0;
   for (long i = 0; i < n-1; i++) {
     s += local[i];
     local_sum[i+1] = s;
   }
-  correction[rank] = s;
+  if (rank!= p-1 ) s += local[n-1];
+  
   MPI_Barrier(MPI_COMM_WORLD);
 
   MPI_Allgather(&s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD) ;
