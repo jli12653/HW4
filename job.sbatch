@@ -1,6 +1,6 @@
 #!/bin/bash
 
-//#SBATCH --job-name=mpi_scan
+
 
 #SBATCH --job-name=int_ring
 #SBATCH --nodes=3 
@@ -12,5 +12,5 @@
 module purge 
 module load  amber/openmpi/intel/20.06 
 
-// mpiexec ./mpi_scan
+
 mpiexec ./int_ring
