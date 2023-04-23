@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
   printf("parallel-scan   = %fs\n", MPI_Wtime() - tt);
   
 
-  long err = 0;
+  int err = 0;
   for (long i = 0; i < N; i++) err = std::max(err, std::abs(B0[i] - B1[i]));
   printf("error = %ld\n", err);
 
