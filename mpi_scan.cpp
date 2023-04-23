@@ -13,49 +13,49 @@ void scan_seq(int* prefix_sum, const int* A, long n) {
   }
 }
 
-void scan_omp(long* prefix_sum, const long* A, long n) {
+// void scan_omp(long* prefix_sum, const long* A, long n) {
 
   
 
-  //long* correction = (long*) malloc(omp_get_max_threads() * sizeof(long));
+//   //long* correction = (long*) malloc(omp_get_max_threads() * sizeof(long));
   
-  if (n == 0) return;
-  prefix_sum[0] = 0;
+//   if (n == 0) return;
+//   prefix_sum[0] = 0;
   
-  #pragma omp parallel
-  {
-    int p = omp_get_num_threads();
-    int t = omp_get_thread_num();
-    //printf("hello world from thread %d of %d\n", t, p);
+//   #pragma omp parallel
+//   {
+//     int p = omp_get_num_threads();
+//     int t = omp_get_thread_num();
+//     //printf("hello world from thread %d of %d\n", t, p);
     
     
-    long s = 0;
-    #pragma omp for schedule(static)
-    for (long i = 0; i < n-1; i++) {
-      s += A[i];
-      prefix_sum[i+1] = s;
-    }
-    correction[t] = s;
-    #pragma omp barrier
+//     long s = 0;
+//     #pragma omp for schedule(static)
+//     for (long i = 0; i < n-1; i++) {
+//       s += A[i];
+//       prefix_sum[i+1] = s;
+//     }
+//     correction[t] = s;
+//     #pragma omp barrier
     
-    long offset = 0;
+//     long offset = 0;
     
-    for (int i = 0; i < t; i++){
-      offset += correction[i];
-    }
+//     for (int i = 0; i < t; i++){
+//       offset += correction[i];
+//     }
     
-    #pragma omp for schedule(static)
-    for (long i = 1; i < n; i++) {
-      prefix_sum[i] += offset;
-    }
-  }
+//     #pragma omp for schedule(static)
+//     for (long i = 1; i < n; i++) {
+//       prefix_sum[i] += offset;
+//     }
+//   }
   
-  free(correction);
-  // Fill out parallel scan: One way to do this is array into p chunks
-  // Do a scan in parallel on each chunk, then share/compute the offset
-  // through a shared vector and update each chunk by adding the offset
-  // in parallel
-}
+//   free(correction);
+//   // Fill out parallel scan: One way to do this is array into p chunks
+//   // Do a scan in parallel on each chunk, then share/compute the offset
+//   // through a shared vector and update each chunk by adding the offset
+//   // in parallel
+// }
 
 int main() {
   int rank, p;
@@ -65,7 +65,7 @@ int main() {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-  long N = 100000000;
+  long N = 1000000;
   
   if (rank == 0 ){
   int* A = (int*) malloc(N * sizeof(int));
