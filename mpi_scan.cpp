@@ -57,7 +57,7 @@ void scan_seq(int* prefix_sum, const int* A, long n) {
 //   // in parallel
 // }
 
-int main() {
+int main(int argc, char *argv[]) {
   int rank, p;
   
 
