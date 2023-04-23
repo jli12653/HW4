@@ -14,70 +14,31 @@ int main(int argc, char *argv[]) {
   MPI_Barrier(MPI_COMM_WORLD);
   
   double tt = MPI_Wtime();
-
-  for (int i = 0; i< N;i++){
-
-  if (rank == 0) {
-    int message_out = 0;
-    int message_in;
-
-    MPI_Status status;
-    MPI_Request request_out, request_in;
-
-    MPI_Send(&message_out, 1, MPI_INT, 1, i, MPI_COMM_WORLD);
-
-    MPI_Recv(&message_in,  1, MPI_INT, p-1, i, MPI_COMM_WORLD, &status);
-
-
-    // MPI_Send(array, N, MPI_INT, 1, i, MPI_COMM_WORLD);
-
-    // MPI_Recv(array,  N, MPI_INT, p-1, i, MPI_COMM_WORLD, &status);
-
-    //printf("Rank %d in %d received %d\n", rank, p, message_in);
-
-    if (i == N-1) printf("Rank %d in %d received %d\n", rank, p, message_in);
-    
-    //free(array_out);
-
-  } else if (rank == p-1) {
-    int message_out = 0;
-    int message_in;
-
-
-    MPI_Status status;
-
-    MPI_Recv(&message_in, 1, MPI_INT, p-2, i, MPI_COMM_WORLD, &status);
-    message_out = message_in + rank;
-    MPI_Send(&message_out, 1, MPI_INT, 0, i, MPI_COMM_WORLD);
-
-    // MPI_Recv(array,  N, MPI_INT, p-2, i, MPI_COMM_WORLD, &status);
-    // MPI_Send(array, N, MPI_INT, 0, i, MPI_COMM_WORLD);
-    
-
-    
-  }
-  else{
-  int message_out = 0;
+  int message_out;
   int message_in;
 
+  for (int i = 0; i< N;i++){
+  
+  if (rank != 0) {
+    MPI_Status status;
+
+    MPI_Recv(&message_in,  1, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
+    message_out = message_in + rank;
+  } else message_out = 0;
+
+  MPI_Send(&message_out, 1, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
+  
+  if (rank == 0){
   MPI_Status status;
 
-  MPI_Recv(&message_in, 1, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
-  message_out = message_in + rank;
-  MPI_Send(&message_out, 1, MPI_INT, rank+1, i, MPI_COMM_WORLD);
-
- 
-  // MPI_Recv(array,  N, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
-  // MPI_Send(array, N, MPI_INT, rank+1, i, MPI_COMM_WORLD);
-
+  MPI_Recv(&message_in, 1, MPI_INT, p-1, i, MPI_COMM_WORLD, &status);
+  if (i==N-1) printf("Rank %d in %d received %d\n", rank, p, message_in);
   }
 
   }
-
   
   double elapsed = MPI_Wtime() - tt;
   if (rank == 0) {
-    // printf("Rank %d in %d received %d\n", rank, p, message_in);
     printf("Time elapsed is %f seconds.\n", elapsed);
   }
 
