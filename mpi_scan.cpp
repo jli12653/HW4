@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
   correction[rank] = s;
   MPI_Barrier(MPI_COMM_WORLD);
 
-  MPI_Allgather(&s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD);
+  MPI_Allgather(&s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD) ;
 
   int offset = 0;
     
@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
     local_sum[i] += offset;
   }
 
-  MPI_Allgather(local_sum, n, MPI_INT, B1, n, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Gather(local_sum, n, MPI_INT, B1, n, MPI_INT, 0, MPI_COMM_WORLD);
 
   if (rank == 0){
   printf("parallel-scan   = %fs\n", MPI_Wtime() - tt);
