@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-  long N = 10000000;
+  long N = 100000000;
 
   int* A = NULL;
   int* B0 = NULL;
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
     local_sum[i+1] = s;
   }
   if (rank!= p-1 ) s += local[n-1];
-  
+
   MPI_Barrier(MPI_COMM_WORLD);
 
   MPI_Allgather(&s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD) ;
