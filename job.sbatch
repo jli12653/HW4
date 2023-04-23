@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=int_ring
+#SBATCH --job-name=mpi_scan
 #SBATCH --nodes=3 
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=2GB 
@@ -10,4 +10,4 @@
 module purge 
 module load  amber/openmpi/intel/20.06 
 
-mpiexec ./int_ring
+mpiexec ./mpi_scan
