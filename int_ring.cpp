@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     // MPI_Recv(&message_in,  1, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
     // message_out = message_in + rank;
     MPI_Recv(array,  N, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
-  }
+  } //else message_out = 0;
 
   //MPI_Send(&message_out, 1, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
   MPI_Send(array, N, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
   free(array);
 
   MPI_Finalize();
-
+  printf("asefacwecaserfeasfssef\n");
 
   return 0;
 }
