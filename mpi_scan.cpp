@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &p);
 
-  long N = 1000000;
+  long N = 10000000;
 
   int* A = NULL;
   int* B0 = NULL;
