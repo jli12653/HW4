@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
   correction[rank] = s;
   MPI_Barrier(MPI_COMM_WORLD);
 
-  MPI_Allgather(s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD);
+  MPI_Allgather(&s, 1, MPI_INT, correction, 1, MPI_INT, MPI_COMM_WORLD);
 
   int offset = 0;
     
