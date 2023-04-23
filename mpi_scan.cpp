@@ -66,23 +66,28 @@ int main(int argc, char *argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD, &p);
 
   long N = 1000000;
+
+  int* A = NULL;
+  int* B0 = NULL;
+  int* B1 = NULL;
+  double tt = 0;
   
   if (rank == 0 ){
-  int* A = (int*) malloc(N * sizeof(int));
-  int* B0 = (int*) malloc(N * sizeof(int));
-  int* B1 = (int*) malloc(N * sizeof(int));
+  A = (int*) malloc(N * sizeof(int));
+  B0 = (int*) malloc(N * sizeof(int));
+  B1 = (int*) malloc(N * sizeof(int));
   for (long i = 0; i < N; i++) A[i] = rand();
   for (long i = 0; i < N; i++) B1[i] = 0;
   
   
-  double tt = MPI_Wtime();
+  tt = MPI_Wtime();
   scan_seq(B0, A, N);
   printf("sequential-scan = %fs\n", MPI_Wtime() - tt);
   
-  tt = MPI_Wtime();
+  
   }
   
-  
+  tt = MPI_Wtime();
 
   long n = N/p;
   int* local = (int*) malloc(n * sizeof(int));
@@ -94,7 +99,7 @@ int main(int argc, char *argv[]) {
 
   int s = 0;
   for (long i = 0; i < n-1; i++) {
-    s += A[i];
+    s += local[i];
     local_sum[i+1] = s;
   }
   correction[rank] = s;
@@ -122,11 +127,12 @@ int main(int argc, char *argv[]) {
   for (long i = 0; i < N; i++) err = std::max(err, std::abs(B0[i] - B1[i]));
   printf("error = %ld\n", err);
 
+  
+  }
+
   free(A);
   free(B0);
   free(B1);
-  }
-
   free(local);
   free(local_sum);
   free(correction);
