@@ -46,9 +46,9 @@ int main(int argc, char *argv[]) {
 
     MPI_Status status;
 
-    MPI_Recv(&message_in, 1, MPI_INT, p-2, 999, MPI_COMM_WORLD, &status);
+    MPI_Recv(&message_in, 1, MPI_INT, p-2, i, MPI_COMM_WORLD, &status);
     message_out = message_in + rank;
-    MPI_Send(&message_out, 1, MPI_INT, 0, 999, MPI_COMM_WORLD);
+    MPI_Send(&message_out, 1, MPI_INT, 0, i, MPI_COMM_WORLD);
 
     // MPI_Recv(array,  N, MPI_INT, p-2, i, MPI_COMM_WORLD, &status);
     // MPI_Send(array, N, MPI_INT, 0, i, MPI_COMM_WORLD);
@@ -62,9 +62,9 @@ int main(int argc, char *argv[]) {
 
   MPI_Status status;
 
-  MPI_Recv(&message_in, 1, MPI_INT, rank-1, 999, MPI_COMM_WORLD, &status);
+  MPI_Recv(&message_in, 1, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
   message_out = message_in + rank;
-  MPI_Send(&message_out, 1, MPI_INT, rank+1, 999, MPI_COMM_WORLD);
+  MPI_Send(&message_out, 1, MPI_INT, rank+1, i, MPI_COMM_WORLD);
 
  
   // MPI_Recv(array,  N, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
