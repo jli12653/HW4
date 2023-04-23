@@ -78,9 +78,11 @@ int main(int argc, char *argv[]) {
   double tt = MPI_Wtime();
   scan_seq(B0, A, N);
   printf("sequential-scan = %fs\n", MPI_Wtime() - tt);
-  }
   
   tt = MPI_Wtime();
+  }
+  
+  
 
   long n = N/p;
   int* local = (int*) malloc(n * sizeof(int));
