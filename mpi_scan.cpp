@@ -112,6 +112,7 @@ int main() {
 
   MPI_Allgather(local_sum, n, MPI_INT, B1, n, MPI_INT, 0, MPI_COMM_WORLD);
 
+  if (rank == 0){
   printf("parallel-scan   = %fs\n", MPI_Wtime() - tt);
   
 
@@ -122,5 +123,12 @@ int main() {
   free(A);
   free(B0);
   free(B1);
+  }
+
+  free(local);
+  free(local_sum);
+  free(correction);
+
+  MPI_Finalize();
   return 0;
 }
