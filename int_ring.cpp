@@ -15,10 +15,11 @@ int main(int argc, char *argv[]) {
   for (int j = 0; j < N; j++) {array[j] = 12;}
   MPI_Barrier(MPI_COMM_WORLD);
   
-  double tt = MPI_Wtime();
+  
   int message_out;
   int message_in;
 
+  double tt = MPI_Wtime();
   for (int i = 0; i< N_I;i++){
   
   if (rank != 0) {
