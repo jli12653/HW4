@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   int N = 1000000;
   int* array_in = (int*) malloc(N * sizeof(int)); 
   int* array_out = (int*) malloc(N * sizeof(int)); 
-  for (int j = 0; j < N; j++) {array_in[j] = 12; array_out[j] = 16}
+  for (int j = 0; j < N; j++) {array_in[j] = 12; array_out[j] = 16;}
   MPI_Barrier(MPI_COMM_WORLD);
   
   double tt = MPI_Wtime();
