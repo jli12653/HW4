@@ -9,35 +9,35 @@ int main(int argc, char *argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD, &p);
   
   int N = 1000000;
-  int* array_in = (int*) malloc(N * sizeof(int)); 
-  int* array_out = (int*) malloc(N * sizeof(int)); 
-  for (int j = 0; j < N; j++) {array_in[j] = 12; array_out[j] = 16;}
+  int* array = (int*) malloc(N * sizeof(int)); 
+  //int* array_out = (int*) malloc(N * sizeof(int)); 
+  for (int j = 0; j < N; j++) {array[j] = 12;}
   MPI_Barrier(MPI_COMM_WORLD);
   
   double tt = MPI_Wtime();
   int message_out;
   int message_in;
 
-  for (int i = 0; i< N;i++){
+  for (int i = 0; i< 1;i++){
   
   if (rank != 0) {
     MPI_Status status;
 
     // MPI_Recv(&message_in,  1, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
     // message_out = message_in + rank;
-    MPI_Recv(array_in,  N, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
+    MPI_Recv(array,  N, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
     //array_out = array_in;
   } //else message_out = 0;
 
   //MPI_Send(&message_out, 1, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
-  MPI_Send(array_out, N, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
+  MPI_Send(array, N, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
   
   if (rank == 0){
   MPI_Status status;
 
   //MPI_Recv(&message_in, 1, MPI_INT, p-1, i, MPI_COMM_WORLD, &status);
   //if (i==N-1) printf("Rank %d in %d received %d\n", rank, p, message_in);
-  MPI_Recv(array_in,  N, MPI_INT, p-1, i, MPI_COMM_WORLD, &status);
+  MPI_Recv(array,  N, MPI_INT, p-1, i, MPI_COMM_WORLD, &status);
   
   }
 
@@ -49,8 +49,8 @@ int main(int argc, char *argv[]) {
     printf("bandwidth: %e GB/s\n", (N*N* sizeof(int)*p)/tt/1e9);
   }
 
-  free(array_in);
-  free(array_out);
+  free(array);
+  //free(array_out);
 
   MPI_Finalize();
   printf("asefacwecaserfeasfssef\n");
