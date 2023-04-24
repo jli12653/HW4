@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
     // MPI_Recv(&message_in,  1, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
     // message_out = message_in + rank;
     MPI_Recv(array_in,  N, MPI_INT, rank-1, i, MPI_COMM_WORLD, &status);
+    array_out = array_in;
   } //else message_out = 0;
 
   //MPI_Send(&message_out, 1, MPI_INT, (rank+1)% p, i, MPI_COMM_WORLD);
