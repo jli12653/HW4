@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
   //free(array_out);
 
   MPI_Finalize();
-  printf("asefacwecaserfeasfssef\n");
+  //printf("asefacwecaserfeasfssef\n");
 
   return 0;
 }
