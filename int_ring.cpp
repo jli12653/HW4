@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &p);
   
-  int N = 10000000;
+  int N = 1000000;
   int* array = (int*) malloc(N * sizeof(int)); 
   //int* array_out = (int*) malloc(N * sizeof(int)); 
   for (int j = 0; j < N; j++) {array[j] = 12;}
