@@ -1,0 +1,29 @@
+1. I run the pingpong.cpp on Greene. I use 3 nodes and did a pingpong between nodes 1 and 2. The following is the output of my pingpong,
+pingpong latency: 1.349000e-06 ms
+pingpong bandwidth: 9.904913e+05 GB/s
+
+2.
+First, I tried 1000000 integer ring communication, and the following are the time takes. I run this on Greene. First, I try it between 3 nodes,
+Rank 0 in 3 received 3
+Time elapsed is 4.493899 seconds.
+
+And then, I tried it with 6 nodes,
+Rank 0 in 6 received 15
+Time elapsed is 8.502920 seconds.
+The time takes roughly double if we use 6 nodes. Let's estimate the latency on Green, which would be,
+there are six communication in each ring, namely, three send and three recieve, so in total, we consider there are three information communication per ring. Then the latency would be,
+4.493899/3/1000000 = 1.497 e-6 ms, which is roughly the same as we tested in the pingpong case. 
+3.
+I did the first problem, the mpi scaning. I followed the steps in the qeustion description. First, I allocate an array on process 0, then I seperate and using MPI_Scatter to send seperated piece to each individual nodes, and each individual compute its local sum and store it in an array called local_sum, then each nodes computes its own offset, namly the correction that other nodes need to add to make their local sum correct. Then, using MPI_Allgather to send individual corrections to every nodes, and base on the information each nodes get and their rank, updating the local sum. And finally, nodes 0 call the gather function to collect the entire scan array, computing the error.( I know this part can be done in each indivdul process). The following is the output,
+nodes = 4
+sequential-scan = 0.226827s
+parallel-scan   = 0.426746s
+error = 0
+
+nodes = 8
+sequential-scan = 0.220612s
+parallel-scan   = 0.404175s
+error = 0
+We can see that this naive way of parallel is still slowly than the sequential one. Given that probably most time spend is on information communiation. 
+4.
+My final project plan is doing a parallel version of the Fast Multiplo method, which is a fast algorithm to compute the n-body problem initially. My plan is to parallelize this method in 2d. Given that this method is mainly a divided and conquer algorthm, there would be not too much communication needed during the process, which I think would be an advantage to parallelizing using MPI. My idea is to divide the whole plane into 2*2 ... 4*4 nodes, and each node compute the approximate expression for sources inside their range. The whold prcess it like the standard scan in question 3. Each nodes initializing its own 2d region, and then compute the correspoding force exerted by sourceing inside its region. And communiate finally to collect all the potential exerted all the other regions. 
