@@ -9,6 +9,7 @@ int main(int argc, char *argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD, &p);
   
   int N = 1000000;
+  int N_I = 10000;
   int* array = (int*) malloc(N * sizeof(int)); 
   //int* array_out = (int*) malloc(N * sizeof(int)); 
   for (int j = 0; j < N; j++) {array[j] = 12;}
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
   int message_out;
   int message_in;
 
-  for (int i = 0; i< 1000;i++){
+  for (int i = 0; i< N_I;i++){
   
   if (rank != 0) {
     MPI_Status status;
@@ -46,7 +47,7 @@ int main(int argc, char *argv[]) {
   double elapsed = MPI_Wtime() - tt;
   if (rank == 0) {
     printf("Time elapsed is %f seconds.\n", elapsed);
-    printf("bandwidth: %e GB/s\n", (1000*N* sizeof(int)*p)/elapsed/1e9);
+    printf("bandwidth: %e GB/s\n", (N_I * N* sizeof(int)*p)/elapsed/1e9);
   }
 
   free(array);
