@@ -13,6 +13,22 @@ Time elapsed is 8.502920 seconds.
 The time takes roughly double if we use 6 nodes. Let's estimate the latency on Green, which would be,
 there are six communication in each ring, namely, three send and three recieve, so in total, we consider there are three information communication per ring. Then the latency would be,
 4.493899/3/1000000 = 1.497 e-6 ms, which is roughly the same as we tested in the pingpong case. 
+Then, I modified the code trying to send an array of 1000000 integers in the ring. The following are the output,
+10 iteration
+Time elapsed is 0.029802 seconds.
+bandwidth: 8.053232e+00 GB/s
+
+100 iteration
+Time elapsed is 0.196065 seconds.
+bandwidth: 1.224084e+01 GB/s
+
+10000 iteration
+Time elapsed is 19.579174 seconds.
+bandwidth: 1.728447e+00 GB/s
+
+1000 iteration with array size 10000000
+Time elapsed is 22.803399 seconds.
+bandwidth: 1.484058e+00 GB/s
 3.
 I did the first problem, the mpi scaning. I followed the steps in the qeustion description. First, I allocate an array on process 0, then I seperate and using MPI_Scatter to send seperated piece to each individual nodes, and each individual compute its local sum and store it in an array called local_sum, then each nodes computes its own offset, namly the correction that other nodes need to add to make their local sum correct. Then, using MPI_Allgather to send individual corrections to every nodes, and base on the information each nodes get and their rank, updating the local sum. And finally, nodes 0 call the gather function to collect the entire scan array, computing the error.( I know this part can be done in each indivdul process). The following is the output,
 nodes = 4
