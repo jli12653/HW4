@@ -2,7 +2,7 @@
 
 
 
-#SBATCH --job-name=int_ring
+#SBATCH --job-name=pingpong
 #SBATCH --nodes=3 
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2GB 
@@ -13,4 +13,4 @@ module purge
 module load  amber/openmpi/intel/20.06 
 
 
-mpiexec ./int_ring
+mpiexec ./pingpong 0 1
