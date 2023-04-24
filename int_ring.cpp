@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
   double elapsed = MPI_Wtime() - tt;
   if (rank == 0) {
     printf("Time elapsed is %f seconds.\n", elapsed);
+    printf("bandwidth: %e GB/s\n", (N*N* sizeof(int)*p)/tt/1e9);
   }
 
   free(array);
